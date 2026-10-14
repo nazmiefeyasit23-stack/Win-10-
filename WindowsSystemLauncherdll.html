@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16:9 Windows Görev Çubuğu</title>
+    <style>
+        /* Tam ekran siyah arka plan ve ortalama */
+        body {
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 16:9 Aspect Ratio Container */
+        .container-16-9 {
+            position: relative;
+            width: 100vw;
+            height: 56.25vw; /* 16:9 oran: (9 / 16) * 100 */
+            max-height: 100vh;
+            max-width: 177.78vh; /* 16:9 oran: (16 / 9) * 100 */
+            background-color: #000000;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Arka plan duvar kağıdı (wlappers.jpeg) */
+        .wallpaper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 14px);
+            object-fit: cover;
+        }
+
+        /* Alt görev çubuğu alanı */
+        .taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 14px; /* Görev çubuğu yüksekliği */
+            background-image: url('görevcubuğubeyaztema.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding-left: 6px;
+            padding-right: 0px;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        /* Soldaki ögeleri bir arada tutan grup */
+        .taskbar-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Sağ tarafı ve ögeleri yöneten alan */
+        .taskbar-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        /* Saat ve Tarih Alanı (Boşlukları buradan ayarlayabilirsin) */
+        .tray-clock {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            white-space: nowrap;
+            text-align: center;
+            font-size: 10px;
+            line-height: 0.9;
+            transform: scale(0.5);
+            transform-origin: center;
+            margin-right: -9px; /* İşaretlediğin o boşluk alanını buradan artırıp azaltabilirsin */
+        }
+
+        /* Ortak görsel özellikleri */
+        .taskbar img {
+            object-fit: contain;
+        }
+
+        /* Sağ en kenardaki bildirim butonu */
+        .tray-button {
+            height: 14px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 16:9 Oranına Sahip Ana Konteyner -->
+    <div class="container-16-9">
+        <!-- Ana Duvar Kağıdı Görseli -->
+        <img src="wlappers.jpeg" alt="Wallpaper" class="wallpaper">
+
+        <!-- Görev Çubuğu -->
+        <div class="taskbar">
+            <!-- Sol Grup -->
+            <div class="taskbar-left">
+                <!-- Başlat Butonu -->
+                <img src="başlatbuttonu.png" alt="Başlat" style="height: 12px; width: auto; cursor: pointer;">
+                
+                <!-- Arama Çubuğu -->
+                <img src="aramaçubuğugörevçubuğu.jpg" alt="Arama" style="height: 10px; width: auto; max-width: 120px;">
+                
+                <!-- Son Uygulamalar -->
+                <img src="sonuygulamalar.jpg" alt="Son Uygulamalar" style="height: 14.3px; width: auto;">
+                
+                <!-- Microsoft Edge İkonu -->
+                <img src="Microsoftedgeikon.png" alt="Microsoft Edge" style="height: 7px; width: auto;">
+                
+                <!-- Dosya Gezgini İkonu -->
+                <img src="fileExplorergörevçubuğuikonu.png" alt="File Explorer" style="height: 9px; width: auto;">
+            </div>
+            
+            <!-- Sağ Grup (Saat/Tarih ve Bildirim Butonu) -->
+            <div class="taskbar-right">
+                <!-- Saat ve Tarih (margin-right ile sağındaki boşluğu ayarlayabilirsin) -->
+                <div class="tray-clock">
+                    <span id="clock">21:52</span>
+                    <span id="date">14.10.2026</span>
+                </div>
+                <!-- Sağ En Kenar / Bildirim Butonu -->
+                <img src="görevçubuğubildirimlermasaüstübuttonu.jpg" alt="Bildirimler" class="tray-button">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+            
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            document.getElementById('date').textContent = `${day}.${month}.${year}`;
+        }
+
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
